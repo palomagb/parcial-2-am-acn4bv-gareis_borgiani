@@ -7,7 +7,6 @@
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="padding_none">0dp</dimen>
     <dimen name="padding_splash">20dp</dimen>
-
     <dimen name="margin_icon_text">12dp</dimen>
     <dimen name="padding_bottom_main_container">100dp</dimen>
     <dimen name="margin_top_small">5dp</dimen>
