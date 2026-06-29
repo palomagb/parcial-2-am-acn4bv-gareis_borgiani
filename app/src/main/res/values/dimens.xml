@@ -4,11 +4,15 @@
     <dimen name="padding_main">30dp</dimen>
     <dimen name="padding_inner_data">40dp</dimen>
     <dimen name="padding_history">20dp</dimen>
+
+
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="padding_none">0dp</dimen>
     <dimen name="padding_splash">20dp</dimen>
     <dimen name="margin_icon_text">12dp</dimen>
     <dimen name="padding_bottom_main_container">100dp</dimen>
+
+
     <dimen name="margin_top_small">5dp</dimen>
     <dimen name="margin_top_medium">10dp</dimen>
     <dimen name="margin_bottom_small">5dp</dimen>
