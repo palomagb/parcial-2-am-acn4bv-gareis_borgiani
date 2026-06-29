@@ -37,4 +37,12 @@
     <string name="log_entry_format">• %1$s - %2$s</string>
     <string name="display_edad_format">Edad: %1$s años</string>
     <string name="display_peso_format">Peso: %1$s kg</string>
+
+    <!-- login -->
+    <string name="title_login">Iniciar Sesión</string>
+    <string name="label_email">Email:</string>
+    <string name="label_password">Contraseña:</string>
+    <string name="action_recover_password">Recuperar contraseña</string>
+    <string name="btn_ingresar">INGRESAR</string>
+    <string name="action_register">¿Aún no tienes cuenta? Regístrate</string>
 </resources>
