@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_cream"
+    android:padding="@dimen/padding_main"
+    tools:context=".ProfileActivity">
+
+    <TextView
+        android:id="@+id/textNombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Hola!"
+        android:textColor="@color/primary_green"
+        android:textSize="@dimen/text_size_splash"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/padding_top_main"/>
+
+    <TextView
+        android:id="@+id/textEmailUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="correo@ejemplo.com"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_history"
+        app:layout_constraintTop_toBottomOf="@id/textNombreUsuario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_top_small"/>
+
+    <Button
+        android:id="@+id/botonCerrarSesion"
+        android:layout_width="200dp"
+        android:layout_height="@dimen/button_height"
+        android:background="@drawable/border_history"
+        android:text="@string/btn_cerrar_sesion"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_body"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/padding_bottom_main_container"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

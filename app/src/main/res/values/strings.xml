@@ -45,4 +45,17 @@
     <string name="action_recover_password">Recuperar contraseña</string>
     <string name="btn_ingresar">INGRESAR</string>
     <string name="action_register">¿Aún no tienes cuenta? Regístrate</string>
+
+    <!-- registro -->
+    <string name="title_register">Crear Cuenta</string>
+    <string name="label_nombre">Nombre completo:</string>
+    <string name="label_repetir_password">Repetir Contraseña:</string>
+    <string name="btn_registrarse">REGISTRARSE</string>
+    <string name="action_back_login">¿Ya tienes cuenta? Inicia sesión</string>
+
+    <!-- Perfil -->
+    <string name="title_profile">Mi Perfil</string>
+    <string name="welcome_user">¡Hola, %1$s!</string>
+    <string name="btn_cerrar_sesion">Cerrar Sesión</string>
+
 </resources>
