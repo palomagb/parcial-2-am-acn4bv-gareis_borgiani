@@ -8,6 +8,10 @@ import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
@@ -21,9 +25,25 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            if (user != null) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("Mascotas").document(user.getUid()).get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            } else {
+                                startActivity(new Intent(SplashActivity.this, SetupPetActivity.class));
+                            }
+                            finish();
+                        });
+            } else {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                finish();
+            }
+
         }, 2500);
     }
 }

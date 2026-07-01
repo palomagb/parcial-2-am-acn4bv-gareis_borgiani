@@ -44,14 +44,14 @@
     <string name="label_password">Contraseña:</string>
     <string name="action_recover_password">Recuperar contraseña</string>
     <string name="btn_ingresar">INGRESAR</string>
-    <string name="action_register">¿Aún no tienes cuenta? Regístrate</string>
+    <string name="action_register">¿Aún no tienes cuenta? <b>Regístrate</b></string>
 
     <!-- registro -->
     <string name="title_register">Crear Cuenta</string>
     <string name="label_nombre">Nombre completo:</string>
     <string name="label_repetir_password">Repetir Contraseña:</string>
     <string name="btn_registrarse">REGISTRARSE</string>
-    <string name="action_back_login">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="action_back_login">¿Ya tienes cuenta? <b>Inicia sesión</b></string>
 
     <!-- Perfil -->
     <string name="title_profile">Mi Perfil</string>

@@ -74,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                     botonRegistrar.setEnabled(true);
 
                     if (task.isSuccessful()) {
+
                         FirebaseUser user = mAuth.getCurrentUser();
 
                         if (user != null) {
@@ -91,10 +92,13 @@ public class RegisterActivity extends AppCompatActivity {
                                 usuarioMap.put("nombre", nombre);
                                 usuarioMap.put("email", correo);
 
+                                //guarda los datos en Firestore
                                 db.collection("Usuarios").document(user.getUid())
                                         .set(usuarioMap)
                                         .addOnSuccessListener(aVoid -> {
                                             Toast.makeText(RegisterActivity.this, "¡Cuenta creada con éxito!", Toast.LENGTH_SHORT).show();
+
+                                            // 3. AHORA SÍ: Lo mandamos DIRECTO a cargar su primera mascota
                                             Intent intent = new Intent(RegisterActivity.this, SetupPetActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
@@ -102,7 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         .addOnFailureListener(e -> {
                                             Toast.makeText(RegisterActivity.this, "Error al guardar datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         });
-
                             });
                         }
                     } else {

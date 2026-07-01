@@ -131,7 +131,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/margin_bottom_large"/>
 
-    <!-- ProgressBar p/ firebase (oculta) -->
     <ProgressBar
         android:id="@+id/barraProgreso"
         android:layout_width="wrap_content"

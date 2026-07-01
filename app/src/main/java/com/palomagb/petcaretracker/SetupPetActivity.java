@@ -57,7 +57,7 @@ public class SetupPetActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         if (user != null) {
-            // Empaquetamos los datos de la mascota
+            // datos de la mascota
             Map<String, Object> mascota = new HashMap<>();
             mascota.put("nombre", nombre);
             mascota.put("especie", especie);

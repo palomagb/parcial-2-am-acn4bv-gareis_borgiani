@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     private void iniciarSesion() {
         String correo = editCorreo.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
@@ -76,25 +77,31 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            // validacion de la mascota
-                            com.google.firebase.firestore.FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
 
-                            db.collection("Mascotas").document(user.getUid()).get()
-                                    .addOnCompleteListener(taskMascota -> {
-                                        if (taskMascota.isSuccessful() && taskMascota.getResult() != null && taskMascota.getResult().exists()) {
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                        } else {
-                                            Intent intent = new Intent(LoginActivity.this, SetupPetActivity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                        }
-                                    });
+                            verificarMascotaYRedirigir(user);
                         }
                     } else {
-                        // error en el login
+                        barraProgreso.setVisibility(View.GONE);
+                        botonLogin.setEnabled(true);
                         Toast.makeText(LoginActivity.this, "Error al iniciar sesión.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void verificarMascotaYRedirigir(FirebaseUser user) {
+        com.google.firebase.firestore.FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+
+        // progressBar.setVisibility(View.VISIBLE);
+
+        db.collection("Mascotas").document(user.getUid()).get()
+                .addOnCompleteListener(taskMascota -> {
+                    if (taskMascota.isSuccessful() && taskMascota.getResult() != null && taskMascota.getResult().exists()) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(LoginActivity.this, SetupPetActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     }
                 });
     }
