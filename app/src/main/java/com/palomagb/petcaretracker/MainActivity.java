@@ -1,29 +1,32 @@
 package com.palomagb.petcaretracker;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import android.content.SharedPreferences;
-import android.text.InputType;
-
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout containerHistorial;
-    private TextView tvNombreMascota, tvDisplayEdad, tvDisplayPeso;
+    private TextView tvNombreMascota, tvDisplayEdad, tvDisplayPeso, tvDisplayEspecie;
     private Button btnComida, btnAgua, btnPaseo, btnJuego, btnHigiene, btnMedicacion;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -31,6 +34,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // menú
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
+        toolbar.inflateMenu(R.menu.menu_main);
+
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.action_logout) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                return true;
+
+            } else if (id == R.id.action_perfil) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            return false;
+        });
 
         containerHistorial = findViewById(R.id.container_historial);
 
@@ -44,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
         tvNombreMascota = findViewById(R.id.tv_nombre_mascota);
         tvDisplayEdad = findViewById(R.id.tv_display_edad);
         tvDisplayPeso = findViewById(R.id.tv_display_peso);
+        tvDisplayEspecie = findViewById(R.id.tv_display_especie);
 
         findViewById(R.id.fab_edit_profile).setOnClickListener(v -> mostrarDialogoEdicion());
 
         configurarBotones();
         cargarDatos();
+        cargarDatosDeFirebase();
 
         ScrollView mainScroll = findViewById(R.id.main_scroll);
         ScrollView historyScroll = findViewById(R.id.scroll_historial);
@@ -101,7 +128,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void guardarDatos() {
-        SharedPreferences preferences = getSharedPreferences("PetCarePrefs", MODE_PRIVATE);
+        // obtiene usuario
+        com.google.firebase.auth.FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String prefsName = (user != null) ? "PetCarePrefs_" + user.getUid() : "PetCarePrefs";
+
+        SharedPreferences preferences = getSharedPreferences(prefsName, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
         StringBuilder sb = new StringBuilder();
@@ -123,7 +154,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarDatos() {
-        SharedPreferences preferences = getSharedPreferences("PetCarePrefs", MODE_PRIVATE);
+        // obtiene usuario
+        com.google.firebase.auth.FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String prefsName = (user != null) ? "PetCarePrefs_" + user.getUid() : "PetCarePrefs";
+
+        SharedPreferences preferences = getSharedPreferences(prefsName, MODE_PRIVATE);
 
         tvNombreMascota.setText(getString(R.string.pet_name_default));
         tvDisplayEdad.setText(preferences.getString("edad", getString(R.string.label_edad)));
@@ -196,5 +231,29 @@ public class MainActivity extends AppCompatActivity {
 
         builder.setNegativeButton(getString(R.string.btn_cancel), null);
         builder.show();
+    }
+
+    private void cargarDatosDeFirebase() {
+        com.google.firebase.auth.FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            com.google.firebase.firestore.FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+
+            db.collection("Mascotas").document(user.getUid()).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                            String nombre = task.getResult().getString("nombre");
+                            String especie = task.getResult().getString("especie");
+                            String edad = task.getResult().getString("edad");
+                            String peso = task.getResult().getString("peso");
+
+                            if (nombre != null) tvNombreMascota.setText(nombre);
+                            if (especie != null) tvDisplayEspecie.setText("Especie: " + especie);
+                            if (edad != null) tvDisplayEdad.setText("Edad: " + edad + " años");
+                            if (peso != null) tvDisplayPeso.setText("Peso: " + peso + " kg");
+
+                            guardarDatos();
+                        }
+                    });
+        }
     }
 }
