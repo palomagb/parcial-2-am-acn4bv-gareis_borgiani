@@ -29,6 +29,7 @@ La aplicación cuenta con varias pantallas que permiten una navegación robusta 
 ### Pantalla de bienvenida: Splash Screen
       
 Se mantuvo la implementación de una **Splash Screen** como punto de entrada a la aplicación para que al iniciarla se pueda visualizar el nombre y logo de la app, teniendo una transición que dura unos segundos para luego pasar a la pantalla principal, generando una mejor experiencia UX.
+
 <img width="300" alt="Pet Care Tracker (1)" src="https://github.com/user-attachments/assets/de03c867-ec19-4d15-afec-c8e0fcba002a" />
 
 ### Pantalla 1: Login / Autenticación (`LoginActivity.java`)
