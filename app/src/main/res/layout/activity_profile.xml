@@ -33,17 +33,151 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/margin_top_small"/>
 
+    <LinearLayout
+        android:id="@+id/linearLayout_estadisticas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/textEmailUsuario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_history"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mascotas registradas:"
+                android:textSize="16sp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_green"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_history"
+            android:orientation="horizontal"
+            android:padding="15dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_label_actividades"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Actividades de Mascota:"
+                android:textSize="16sp"
+                android:textColor="@color/black" />
+
+            <!-- ¡Acá le agregamos el ID y le ponemos un 0 inicial! -->
+            <TextView
+                android:id="@+id/tv_contador_actividades"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_green"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_titulo_preferencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:text="Preferencias"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/primary_green"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout_estadisticas"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_titulo_preferencias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Switch
+            android:id="@+id/switch_alimentacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Recordatorio de alimentación"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/switch_notificaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Recordatorio de hidratación"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/switch_medicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Recordatorio de medicación"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/switch_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Tips de cuidado natural y enriquecimiento"
+            android:textSize="16sp" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/botonCerrarSesion"
-        android:layout_width="200dp"
-        android:layout_height="@dimen/button_height"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:background="@drawable/border_history"
         android:text="@string/btn_cerrar_sesion"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_body"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/padding_bottom_main_container"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_profile"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="10dp"
+        android:elevation="4dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
