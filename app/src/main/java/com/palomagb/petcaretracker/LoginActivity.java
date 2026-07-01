@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         botonRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // ir a pantalla de registro
+                // pantalla de registro
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
@@ -72,21 +72,29 @@ public class LoginActivity extends AppCompatActivity {
 
         // conecta con Firebase
         mAuth.signInWithEmailAndPassword(correo, password)
-                .addOnCompleteListener(this, task -> {
-                    barraProgreso.setVisibility(View.GONE);
-                    botonLogin.setEnabled(true);
-
+                .addOnCompleteListener(LoginActivity.this, task -> {
                     if (task.isSuccessful()) {
-                        // login exitoso
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(LoginActivity.this, "¡Bienvenida!", Toast.LENGTH_SHORT).show();
+                        if (user != null) {
+                            // validacion de la mascota
+                            com.google.firebase.firestore.FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                            db.collection("Mascotas").document(user.getUid()).get()
+                                    .addOnCompleteListener(taskMascota -> {
+                                        if (taskMascota.isSuccessful() && taskMascota.getResult() != null && taskMascota.getResult().exists()) {
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                        } else {
+                                            Intent intent = new Intent(LoginActivity.this, SetupPetActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                        }
+                                    });
+                        }
                     } else {
-                        // error en login (contraseña mal, usuario no existe, etc.)
-                        Toast.makeText(LoginActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        // error en el login
+                        Toast.makeText(LoginActivity.this, "Error al iniciar sesión.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

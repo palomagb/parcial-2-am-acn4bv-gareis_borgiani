@@ -79,14 +79,30 @@ public class RegisterActivity extends AppCompatActivity {
                         if (user != null) {
                             com.google.firebase.auth.UserProfileChangeRequest profileUpdates =
                                     new com.google.firebase.auth.UserProfileChangeRequest.Builder()
-                                            .setDisplayName(nombre) // Acá le pasamos el nombre que escribió
+                                            .setDisplayName(nombre)
                                             .build();
 
                             user.updateProfile(profileUpdates).addOnCompleteListener(taskUpdate -> {
-                                Toast.makeText(RegisterActivity.this, "¡Cuenta creada con éxito!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+
+                                com.google.firebase.firestore.FirebaseFirestore db = com.google.firebase.firestore.FirebaseFirestore.getInstance();
+
+                                java.util.Map<String, Object> usuarioMap = new java.util.HashMap<>();
+                                usuarioMap.put("uid", user.getUid());
+                                usuarioMap.put("nombre", nombre);
+                                usuarioMap.put("email", correo);
+
+                                db.collection("Usuarios").document(user.getUid())
+                                        .set(usuarioMap)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(RegisterActivity.this, "¡Cuenta creada con éxito!", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(RegisterActivity.this, SetupPetActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(RegisterActivity.this, "Error al guardar datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+
                             });
                         }
                     } else {
